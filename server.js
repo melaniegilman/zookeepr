@@ -1,5 +1,8 @@
 const express = require ('express');
 
+// Tell app to use that port, if it has been set, and if not, default to port 80.
+const PORT = process.env.PORT || 3001;
+
 //Instantiate the server
 const app = express();
 // Require data
@@ -58,6 +61,6 @@ app.get('/api/animals', (req, res) => {
   });
 
 // Method to make our server listen. Chain the listen() method onto our server.
-app.listen(3001, () => {
+app.listen(PORT, () => {
     console.log(`API server now on port 3001!`);
   });
