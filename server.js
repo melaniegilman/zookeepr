@@ -1,3 +1,7 @@
+
+// Require data
+const { animals } = require('./data/animals');
+
 const express = require ('express');
 
 // Tell app to use that port, if it has been set, and if not, default to port 80.
@@ -5,8 +9,7 @@ const PORT = process.env.PORT || 3001;
 
 //Instantiate the server
 const app = express();
-// Require data
-const { animals } = require('./data/animals');
+
 
 
 
@@ -51,6 +54,12 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
   }
 
+// Takes in the id and array of animals and returns a single animal object
+function findById(id, animalsArray) {
+  const result = animalsArray.filter(animal => animal.id === id)[0];
+  return result;
+}
+
 // Add the route
 app.get('/api/animals', (req, res) => {
     let results = animals;
@@ -59,6 +68,16 @@ app.get('/api/animals', (req, res) => {
     }
     res.json(results);
   });
+
+  // Route for animals
+  app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+      res.json(result);
+    } else {
+      res.send(404);
+    }
+   });
 
 // Method to make our server listen. Chain the listen() method onto our server.
 app.listen(PORT, () => {
