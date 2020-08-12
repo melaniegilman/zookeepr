@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
+//Giving a file path adn instructing to make them static resources
+app.use(express.static('public'));
+
 
 
 
@@ -97,6 +100,7 @@ function validateAnimal(animal) {
 }
 
 
+
 // Add the route
 app.get('/api/animals', (req, res) => {
   let results = animals;
@@ -116,6 +120,11 @@ app.get('/api/animals/:id', (req, res) => {
   }
 });
 
+//route for zookeepers page
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
 //Another method of the APP object that allows us to create routes but POST differs from GET in that POST 
 // represents the action of a client *requesting the server to accept data* rather than vice versa
 app.post('/api/animals', (req, res) => {
@@ -130,6 +139,17 @@ app.post('/api/animals', (req, res) => {
     res.json(animal);
   }
 });
+
+//Brings us to the root route of the server-used to create homepage for server
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+//This route will take us to /animals
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
 // Method to make our server listen. Chain the listen() method onto our server.
 app.listen(PORT, () => {
   console.log(`API server now on port 3001!`);
